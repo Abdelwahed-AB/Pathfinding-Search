@@ -1,12 +1,10 @@
 from pygame.locals import QUIT, KEYDOWN
 from Grid import *
-import time
-from pygame import init, time, display, event
+from pygame import init, display, event
 from pygame import K_b, K_h, K_d, K_v, K_n, K_g, K_s, K_e, K_BACKSPACE
 import sys
 from random import randint
 
-clock = time.Clock()
 # Pygame window attributes
 WINDOW_SIZE = (610, 410)
 FPS = 60
@@ -44,11 +42,11 @@ def BreadthFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                     agenda.append(path.copy())  # Add to the back of the que
                     path.pop(-1)
 
-        for event in event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_b:
+            if eve.type == KEYDOWN:
+                if eve.key == K_b:
                     return
         # Draw the current node (green) + checked nodes(red)
         path[-1].isCurrent = True
@@ -85,11 +83,11 @@ def DepthFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                     path.append(node)
                     agenda.insert(0, path.copy())  # Add to the front of the queue
                     path.pop(-1)
-        for event in event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_d:
+            if eve.type == KEYDOWN:
+                if eve.key == K_d:
                     return
         # Draw the current node (green) + checked nodes(red)
         path[-1].isCurrent = True
@@ -147,11 +145,11 @@ def BestFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
 
                 node.f = node.distance(end)
                 node.camefrom = current
-        for event in event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_v:
+            if eve.type == KEYDOWN:
+                if eve.key == K_v:
                     return
 
 
@@ -196,11 +194,11 @@ def HillClimb(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                 for p in a[::-1]:
                     agenda.insert(0, p)
 
-        for event in event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_h:
+            if eve.type == KEYDOWN:
+                if eve.key == K_h:
                     return
         # Draw the current node (green) + checked nodes(red)
         path[-1].isCurrent = True
@@ -264,11 +262,11 @@ def Djikstra(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
 
                 node.f = node.g
                 node.camefrom = current
-        for event in event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_n:
+            if eve.type == KEYDOWN:
+                if eve.key == K_n:
                     return
     return(None)
 
@@ -326,11 +324,11 @@ def Astar(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                 node.h = node.distance(end)
                 node.f = node.g + node.h
                 node.camefrom = current
-        for event in event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == 113:
+            if eve.type == KEYDOWN:
+                if eve.key == 113:
                     return
     return(None)
 
@@ -381,20 +379,20 @@ while True:
     g.grid[end[1]][end[0]].isWall = False
 
     g.draw()
-    for event in event.get():
-        if event.type == QUIT:
+    for eve in event.get():
+        if eve.type == QUIT:
             sys.exit()
-        if event.type == KEYDOWN:
+        if eve.type == KEYDOWN:
             mousePos = mouse.get_pos()
-            if event.key in funcs.keys():
-                if not event.key in [K_BACKSPACE, K_g]:
-                    funcs[event.key](start, end)
+            if eve.key in funcs.keys():
+                if not eve.key in [K_BACKSPACE, K_g]:
+                    funcs[eve.key](start, end)
                 else:
-                    funcs[event.key]()
-            if event.key == K_s:
+                    funcs[eve.key]()
+            if eve.key == K_s:
                 g.grid[start[1]][start[0]].isStart = False
                 start = ((mousePos[0] // g.n_width), (mousePos[1] // g.n_width))
-            if event.key == K_e:
+            if eve.key == K_e:
                 g.grid[end[1]][end[0]].isEnd = False
                 end = ((mousePos[0] // g.n_width), (mousePos[1] // g.n_width))
 
