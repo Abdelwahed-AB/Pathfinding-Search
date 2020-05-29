@@ -219,8 +219,8 @@ def HillClimb(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
     return(None)
 
 
-# its like BreadthFS in this context
-def BranchAndBound(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
+
+def Djikstra(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
     g.reset(False)
     end = g.grid[end[1]][end[0]]
     # Paths to extend
@@ -377,7 +377,7 @@ def fill_Walls():
 
 
 funcs = {pygame.K_b: BreadthFS, pygame.K_d: DepthFS, pygame.K_g: Maze, pygame.K_v: BestFS,
-         pygame.K_h: HillClimb, 113: Astar, pygame.K_n: BranchAndBound, pygame.K_BACKSPACE: reset}
+         pygame.K_h: HillClimb, 113: Astar, pygame.K_n: Djikstra, pygame.K_BACKSPACE: reset}
 
 start = (0, 0)
 end = (g.x_elems - 1, g.y_elems - 1)
