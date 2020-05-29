@@ -1,3 +1,4 @@
+from Colors import ColorCode
 from pygame.locals import *
 from Grid import *
 import time
@@ -9,14 +10,7 @@ rgb = pygame.Color
 clock = pygame.time.Clock()
 # Pygame window attributes
 WINDOW_SIZE = (610, 410)
-BG_COLOR = rgb(38, 38, 38)
 FPS = 60
-
-# Default Colors
-green = rgb(59, 224, 56)
-red = rgb(230, 53, 41)
-white = rgb(238, 238, 238)
-gray = rgb(125, 125, 125)
 
 # init Pygame
 pygame.init()
@@ -24,7 +18,6 @@ screen = pygame.display.set_mode(WINDOW_SIZE)
 # Learning about pathfinding / search algorithms
 
 g = Grid(screen, dimensions=WINDOW_SIZE)
-
 
 def BreadthFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
     g.reset(False)

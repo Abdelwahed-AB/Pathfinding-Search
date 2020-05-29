@@ -1,16 +1,5 @@
 import pygame
-
-rgb = pygame.Color
-
-white = rgb(255, 255, 255)
-gray = rgb(78, 78, 78)
-black = rgb(17, 17, 17)
-green = rgb(47, 219, 54)
-red = rgb(227, 42, 42)
-blue = rgb(20, 94, 238)
-orange = rgb(245, 153, 58)
-yellow = rgb(233, 221, 52)
-
+from Colors import ColorCode
 
 class Node(object):
     def __init__(self, Surface, x, y, width, i, j, offsetx=0, offsety=0):
@@ -29,7 +18,7 @@ class Node(object):
         self.h = 0
         self.camefrom = None
 
-        self.color = black  # SET as BG color
+        self.color = ColorCode.BLACK  # SET as BG color
 
         self.offsetx = offsetx
         self.offsety = offsety
@@ -58,21 +47,21 @@ class Node(object):
             if pygame.mouse.get_pressed()[2] == 1:
                 self.isWall = False
 
-            self.color = gray
+            self.color = ColorCode.DARK_GRAY
         elif self.isStart:
-            self.color = yellow
+            self.color = ColorCode.YELLOW
         elif self.isEnd:
-            self.color = orange
+            self.color = ColorCode.ORANGE
         elif self.isWall:
-            self.color = white
+            self.color = ColorCode.WHITE
         elif self.isPath:
-            self.color = blue
+            self.color = ColorCode.BLUE
         elif self.checked:
-            self.color = red
+            self.color = ColorCode.RED
         elif self.isCurrent:
-            self.color = green
+            self.color = ColorCode.GREEN
         else:
-            self.color = black
+            self.color = ColorCode.BLACK
 
         # Render the node on the screen
         rect = pygame.Rect(self.x, self.y, self.width, self.width)
@@ -148,7 +137,7 @@ class Grid(object):
 
     def draw(self):
         # Draw the grid
-        self.grid_surf.fill(black)  # Replace with background color
+        self.grid_surf.fill(ColorCode.BLACK)  # Replace with background color
 
         # Draw the nodes
         for row in self.grid:
