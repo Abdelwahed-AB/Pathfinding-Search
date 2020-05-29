@@ -5,7 +5,7 @@ This is a small project I made to learn the basic search algorithms while follow
 Key | Usage
 --------------|--------------
 a | A-Star algorithm
-b | Bradth-First-Search
+b | Breadth-First-Search
 d | Depth-First-Search
 v | Best-First-Search
 h | HillClimb
