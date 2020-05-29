@@ -18,7 +18,7 @@ class Node(object):
         self.h = 0
         self.camefrom = None
 
-        self.color = ColorCode.BLACK  # SET as BG color
+        self.color = ColorCode.BLACK.value  # SET as BG color
 
         self.offsetx = offsetx
         self.offsety = offsety
@@ -47,21 +47,21 @@ class Node(object):
             if mouse.get_pressed()[2] == 1:
                 self.isWall = False
 
-            self.color = ColorCode.DARK_GRAY
+            self.color = ColorCode.DARK_GRAY.value
         elif self.isStart:
-            self.color = ColorCode.YELLOW
+            self.color = ColorCode.YELLOW.value
         elif self.isEnd:
-            self.color = ColorCode.ORANGE
+            self.color = ColorCode.ORANGE.value
         elif self.isWall:
-            self.color = ColorCode.WHITE
+            self.color = ColorCode.WHITE.value
         elif self.isPath:
-            self.color = ColorCode.BLUE
+            self.color = ColorCode.BLUE.value
         elif self.checked:
-            self.color = ColorCode.RED
+            self.color = ColorCode.RED.value
         elif self.isCurrent:
-            self.color = ColorCode.GREEN
+            self.color = ColorCode.GREEN.value
         else:
-            self.color = ColorCode.BLACK
+            self.color = ColorCode.BLACK.value
 
         # Render the node on the screen
         rect = Rect(self.x, self.y, self.width, self.width)
@@ -137,7 +137,7 @@ class Grid(object):
 
     def draw(self):
         # Draw the grid
-        self.grid_surf.fill(ColorCode.BLACK)  # Replace with background color
+        self.grid_surf.fill(ColorCode.BLACK.value)  # Replace with background color
 
         # Draw the nodes
         for row in self.grid:
