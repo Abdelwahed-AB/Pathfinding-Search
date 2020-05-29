@@ -1,13 +1,13 @@
-import pygame
 from Colors import ColorCode
+from pygame import mouse, Rect, draw, Surface
 
 class Node(object):
-    def __init__(self, Surface, x, y, width, i, j, offsetx=0, offsety=0):
+    def __init__(self, surfac, x, y, width, i, j, offsetx=0, offsety=0):
 
         self.x = x
         self.y = y
         self.width = width
-        self.surface = Surface
+        self.surface = surfac
 
         self.i = i
         self.j = j
@@ -41,10 +41,10 @@ class Node(object):
         # Set the state of the node
         if isMouseOver(self):
             # Left Mouse Button
-            if pygame.mouse.get_pressed()[0] == 1:
+            if mouse.get_pressed()[0] == 1:
                 self.isWall = True
             # Right Mouse Button
-            if pygame.mouse.get_pressed()[2] == 1:
+            if mouse.get_pressed()[2] == 1:
                 self.isWall = False
 
             self.color = ColorCode.DARK_GRAY
@@ -64,8 +64,8 @@ class Node(object):
             self.color = ColorCode.BLACK
 
         # Render the node on the screen
-        rect = pygame.Rect(self.x, self.y, self.width, self.width)
-        pygame.draw.rect(self.surface, self.color, rect)
+        rect = Rect(self.x, self.y, self.width, self.width)
+        draw.rect(self.surface, self.color, rect)
 
     def WallNeighbours(self, arr=[]):  # WIP (Need to remake the whole classes so this is easier)
         a = []
@@ -89,10 +89,10 @@ class Node(object):
 
 
 class Grid(object):
-    def __init__(self, Surface, x=0, y=0, dimensions=(100, 100), node_width=10):
+    def __init__(self, surfac, x=0, y=0, dimensions=(100, 100), node_width=10):
         # What is needed? : Create the nodes, Store the nodes, give each node its neighbours.
 
-        self.surface = Surface
+        self.surface = surfac
         self.x = x
         self.y = y
         self.dimensions = dimensions
@@ -102,7 +102,7 @@ class Grid(object):
         self.y_elems = self.dimensions[1] // self.n_width  # Number of nodes in a column
 
         self.grid = []
-        self.grid_surf = pygame.Surface(self.dimensions)
+        self.grid_surf = Surface(self.dimensions)
 
         # Create the nodes
         for i in range(self.y_elems):
@@ -158,7 +158,7 @@ class Grid(object):
 
 
 def isMouseOver(node):
-    if (node.x + node.offsetx < pygame.mouse.get_pos()[0] < node.x + node.offsetx + node.width) and (node.y + node.offsety < pygame.mouse.get_pos()[1] < node.y + node.width + node.offsety):
+    if (node.x + node.offsetx < mouse.get_pos()[0] < node.x + node.offsetx + node.width) and (node.y + node.offsety < mouse.get_pos()[1] < node.y + node.width + node.offsety):
         return(True)
     else:
         return(False)
