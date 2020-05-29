@@ -1,30 +1,20 @@
-from pygame.locals import *
+from pygame.locals import QUIT, KEYDOWN
 from Grid import *
-import time
-import pygame
+from pygame import init, display, event
+from pygame import K_b, K_h, K_d, K_v, K_n, K_g, K_s, K_e, K_BACKSPACE
 import sys
 from random import randint
 
-rgb = pygame.Color
-clock = pygame.time.Clock()
 # Pygame window attributes
 WINDOW_SIZE = (610, 410)
-BG_COLOR = rgb(38, 38, 38)
 FPS = 60
 
-# Default Colors
-green = rgb(59, 224, 56)
-red = rgb(230, 53, 41)
-white = rgb(238, 238, 238)
-gray = rgb(125, 125, 125)
-
 # init Pygame
-pygame.init()
-screen = pygame.display.set_mode(WINDOW_SIZE)
+init()
+screen = display.set_mode(WINDOW_SIZE)
 # Learning about pathfinding / search algorithms
 
 g = Grid(screen, dimensions=WINDOW_SIZE)
-
 
 def BreadthFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
     g.reset(False)
@@ -40,7 +30,7 @@ def BreadthFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
             for node in path:  # For Drawing the final path
                 node.isPath = True
             g.draw()
-            pygame.display.update()
+            display.update()
             print(len(path))  # Return the path (might need it in the future)
             return
         elif path[-1] not in extendedList:  # Check if we visited the current node before or not
@@ -52,18 +42,18 @@ def BreadthFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                     agenda.append(path.copy())  # Add to the back of the que
                     path.pop(-1)
 
-        for event in pygame.event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == pygame.K_b:
+            if eve.type == KEYDOWN:
+                if eve.key == K_b:
                     return
         # Draw the current node (green) + checked nodes(red)
         path[-1].isCurrent = True
         g.draw()
         path[-1].isCurrent = False
         path[-1].checked = True
-        pygame.display.update()
+        display.update()
     return(None)
 
 
@@ -82,7 +72,7 @@ def DepthFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
             for node in path:  # For Drawing the final path
                 node.isPath = True
             g.draw()
-            pygame.display.update()
+            display.update()
             print(len(path))
             return  # Return the path (might need it in the future)
         elif path[-1] not in extendedList:  # Check if we visited the current node before or not
@@ -93,18 +83,18 @@ def DepthFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                     path.append(node)
                     agenda.insert(0, path.copy())  # Add to the front of the queue
                     path.pop(-1)
-        for event in pygame.event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == pygame.K_d:
+            if eve.type == KEYDOWN:
+                if eve.key == K_d:
                     return
         # Draw the current node (green) + checked nodes(red)
         path[-1].isCurrent = True
         g.draw()
         path[-1].isCurrent = False
         path[-1].checked = True
-        pygame.display.update()
+        display.update()
     return(None)
 
 
@@ -133,7 +123,7 @@ def BestFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                 tmp = tmp.camefrom
                 tmp.isPath = True  # Draw the path
             g.draw()
-            pygame.display.update()
+            display.update()
             print(len(path))
             return
 
@@ -146,7 +136,7 @@ def BestFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
         g.draw()
         current.isCurrent = False
         current.checked = True
-        pygame.display.update()
+        display.update()
 
         for node in current.neighbours:
             if not node.isWall and not node in closedSet:
@@ -155,11 +145,11 @@ def BestFS(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
 
                 node.f = node.distance(end)
                 node.camefrom = current
-        for event in pygame.event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == pygame.K_v:
+            if eve.type == KEYDOWN:
+                if eve.key == K_v:
                     return
 
 
@@ -178,7 +168,7 @@ def HillClimb(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
             for node in path:  # For Drawing the final path
                 node.isPath = True
             g.draw()
-            pygame.display.update()
+            display.update()
             print(len(path))
             return  # Return the path (might need it in the future)
         elif path[-1] not in extendedList:  # Check if we visited the current node before or not
@@ -204,18 +194,18 @@ def HillClimb(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                 for p in a[::-1]:
                     agenda.insert(0, p)
 
-        for event in pygame.event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == pygame.K_h:
+            if eve.type == KEYDOWN:
+                if eve.key == K_h:
                     return
         # Draw the current node (green) + checked nodes(red)
         path[-1].isCurrent = True
         g.draw()
         path[-1].isCurrent = False
         path[-1].checked = True
-        pygame.display.update()
+        display.update()
     return(None)
 
 
@@ -245,7 +235,7 @@ def Djikstra(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                 tmp = tmp.camefrom
                 tmp.isPath = True  # Draw the path
             g.draw()
-            pygame.display.update()
+            display.update()
             print(len(path))
             return
 
@@ -258,7 +248,7 @@ def Djikstra(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
         g.draw()
         current.isCurrent = False
         current.checked = True
-        pygame.display.update()
+        display.update()
 
         for node in current.neighbours:
             if not node.isWall and not node in closedSet:
@@ -272,11 +262,11 @@ def Djikstra(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
 
                 node.f = node.g
                 node.camefrom = current
-        for event in pygame.event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == pygame.K_n:
+            if eve.type == KEYDOWN:
+                if eve.key == K_n:
                     return
     return(None)
 
@@ -306,7 +296,7 @@ def Astar(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                 tmp = tmp.camefrom
                 tmp.isPath = True  # Draw the path
             g.draw()
-            pygame.display.update()
+            display.update()
             print(len(path))
             return
 
@@ -319,7 +309,7 @@ def Astar(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
         g.draw()
         current.isCurrent = False
         current.checked = True
-        pygame.display.update()
+        display.update()
 
         for node in current.neighbours:
             if not node.isWall and not node in closedSet:
@@ -334,11 +324,11 @@ def Astar(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
                 node.h = node.distance(end)
                 node.f = node.g + node.h
                 node.camefrom = current
-        for event in pygame.event.get():
-            if event.type == QUIT:
+        for eve in event.get():
+            if eve.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == 113:
+            if eve.type == KEYDOWN:
+                if eve.key == 113:
                     return
     return(None)
 
@@ -376,8 +366,8 @@ def fill_Walls():
             g.grid[j][i].isWall = True
 
 
-funcs = {pygame.K_b: BreadthFS, pygame.K_d: DepthFS, pygame.K_g: Maze, pygame.K_v: BestFS,
-         pygame.K_h: HillClimb, 113: Astar, pygame.K_n: Djikstra, pygame.K_BACKSPACE: reset}
+funcs = {K_b: BreadthFS, K_d: DepthFS, K_g: Maze, K_v: BestFS,
+         K_h: HillClimb, 113: Astar, K_n: Djikstra, K_BACKSPACE: reset}
 
 start = (0, 0)
 end = (g.x_elems - 1, g.y_elems - 1)
@@ -389,21 +379,21 @@ while True:
     g.grid[end[1]][end[0]].isWall = False
 
     g.draw()
-    for event in pygame.event.get():
-        if event.type == QUIT:
+    for eve in event.get():
+        if eve.type == QUIT:
             sys.exit()
-        if event.type == KEYDOWN:
-            mousePos = pygame.mouse.get_pos()
-            if event.key in funcs.keys():
-                if not event.key in [pygame.K_BACKSPACE, pygame.K_g]:
-                    funcs[event.key](start, end)
+        if eve.type == KEYDOWN:
+            mousePos = mouse.get_pos()
+            if eve.key in funcs.keys():
+                if not eve.key in [K_BACKSPACE, K_g]:
+                    funcs[eve.key](start, end)
                 else:
-                    funcs[event.key]()
-            if event.key == pygame.K_s:
+                    funcs[eve.key]()
+            if eve.key == K_s:
                 g.grid[start[1]][start[0]].isStart = False
                 start = ((mousePos[0] // g.n_width), (mousePos[1] // g.n_width))
-            if event.key == pygame.K_e:
+            if eve.key == K_e:
                 g.grid[end[1]][end[0]].isEnd = False
                 end = ((mousePos[0] // g.n_width), (mousePos[1] // g.n_width))
 
-    pygame.display.update()
+    display.update()

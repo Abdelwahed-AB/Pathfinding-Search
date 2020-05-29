@@ -1,24 +1,13 @@
-import pygame
-
-rgb = pygame.Color
-
-white = rgb(255, 255, 255)
-gray = rgb(78, 78, 78)
-black = rgb(17, 17, 17)
-green = rgb(47, 219, 54)
-red = rgb(227, 42, 42)
-blue = rgb(20, 94, 238)
-orange = rgb(245, 153, 58)
-yellow = rgb(233, 221, 52)
-
+from Colors import ColorCode
+from pygame import mouse, Rect, draw, Surface
 
 class Node(object):
-    def __init__(self, Surface, x, y, width, i, j, offsetx=0, offsety=0):
+    def __init__(self, surfac, x, y, width, i, j, offsetx=0, offsety=0):
 
         self.x = x
         self.y = y
         self.width = width
-        self.surface = Surface
+        self.surface = surfac
 
         self.i = i
         self.j = j
@@ -29,7 +18,7 @@ class Node(object):
         self.h = 0
         self.camefrom = None
 
-        self.color = black  # SET as BG color
+        self.color = ColorCode.BLACK.value  # SET as BG color
 
         self.offsetx = offsetx
         self.offsety = offsety
@@ -52,31 +41,31 @@ class Node(object):
         # Set the state of the node
         if isMouseOver(self):
             # Left Mouse Button
-            if pygame.mouse.get_pressed()[0] == 1:
+            if mouse.get_pressed()[0] == 1:
                 self.isWall = True
             # Right Mouse Button
-            if pygame.mouse.get_pressed()[2] == 1:
+            if mouse.get_pressed()[2] == 1:
                 self.isWall = False
 
-            self.color = gray
+            self.color = ColorCode.DARK_GRAY.value
         elif self.isStart:
-            self.color = yellow
+            self.color = ColorCode.YELLOW.value
         elif self.isEnd:
-            self.color = orange
+            self.color = ColorCode.ORANGE.value
         elif self.isWall:
-            self.color = white
+            self.color = ColorCode.WHITE.value
         elif self.isPath:
-            self.color = blue
+            self.color = ColorCode.BLUE.value
         elif self.checked:
-            self.color = red
+            self.color = ColorCode.RED.value
         elif self.isCurrent:
-            self.color = green
+            self.color = ColorCode.GREEN.value
         else:
-            self.color = black
+            self.color = ColorCode.BLACK.value
 
         # Render the node on the screen
-        rect = pygame.Rect(self.x, self.y, self.width, self.width)
-        pygame.draw.rect(self.surface, self.color, rect)
+        rect = Rect(self.x, self.y, self.width, self.width)
+        draw.rect(self.surface, self.color, rect)
 
     def WallNeighbours(self, arr=[]):  # WIP (Need to remake the whole classes so this is easier)
         a = []
@@ -100,10 +89,10 @@ class Node(object):
 
 
 class Grid(object):
-    def __init__(self, Surface, x=0, y=0, dimensions=(100, 100), node_width=10):
+    def __init__(self, surfac, x=0, y=0, dimensions=(100, 100), node_width=10):
         # What is needed? : Create the nodes, Store the nodes, give each node its neighbours.
 
-        self.surface = Surface
+        self.surface = surfac
         self.x = x
         self.y = y
         self.dimensions = dimensions
@@ -113,7 +102,7 @@ class Grid(object):
         self.y_elems = self.dimensions[1] // self.n_width  # Number of nodes in a column
 
         self.grid = []
-        self.grid_surf = pygame.Surface(self.dimensions)
+        self.grid_surf = Surface(self.dimensions)
 
         # Create the nodes
         for i in range(self.y_elems):
@@ -148,7 +137,7 @@ class Grid(object):
 
     def draw(self):
         # Draw the grid
-        self.grid_surf.fill(black)  # Replace with background color
+        self.grid_surf.fill(ColorCode.BLACK.value)  # Replace with background color
 
         # Draw the nodes
         for row in self.grid:
@@ -169,7 +158,7 @@ class Grid(object):
 
 
 def isMouseOver(node):
-    if (node.x + node.offsetx < pygame.mouse.get_pos()[0] < node.x + node.offsetx + node.width) and (node.y + node.offsety < pygame.mouse.get_pos()[1] < node.y + node.width + node.offsety):
+    if (node.x + node.offsetx < mouse.get_pos()[0] < node.x + node.offsetx + node.width) and (node.y + node.offsety < mouse.get_pos()[1] < node.y + node.width + node.offsety):
         return(True)
     else:
         return(False)
