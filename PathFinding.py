@@ -1,7 +1,7 @@
 from pygame.locals import QUIT, KEYDOWN
 from Grid import *
 from pygame import init, display, event
-from pygame import K_b, K_h, K_d, K_v, K_n, K_g, K_s, K_e, K_BACKSPACE
+from pygame import K_a, K_b, K_h, K_d, K_v, K_n, K_g, K_s, K_e, K_BACKSPACE
 import sys
 from random import randint
 
@@ -328,7 +328,7 @@ def Astar(start=(0, 0), end=(g.x_elems - 1, g.y_elems - 1)):
             if eve.type == QUIT:
                 sys.exit()
             if eve.type == KEYDOWN:
-                if eve.key == 113:
+                if eve.key == K_a:
                     return
     return(None)
 
@@ -367,7 +367,7 @@ def fill_Walls():
 
 
 funcs = {K_b: BreadthFS, K_d: DepthFS, K_g: Maze, K_v: BestFS,
-         K_h: HillClimb, 113: Astar, K_n: Djikstra, K_BACKSPACE: reset}
+         K_h: HillClimb, k_a: Astar, K_n: Djikstra, K_BACKSPACE: reset}
 
 start = (0, 0)
 end = (g.x_elems - 1, g.y_elems - 1)
