@@ -367,7 +367,7 @@ def fill_Walls():
 
 
 funcs = {K_b: BreadthFS, K_d: DepthFS, K_g: Maze, K_v: BestFS,
-         K_h: HillClimb, k_a: Astar, K_n: Djikstra, K_BACKSPACE: reset}
+         K_h: HillClimb, K_a: Astar, K_n: Djikstra, K_BACKSPACE: reset}
 
 start = (0, 0)
 end = (g.x_elems - 1, g.y_elems - 1)
